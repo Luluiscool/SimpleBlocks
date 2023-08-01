@@ -1,0 +1,65 @@
+1: Create a sprite struct
+    * Sprite should be dynamic
+
+2: Create Player
+    * Create player struct
+    * Implement verlet's integeration
+    * Apply forces to the player [Gravity, Friction(NOT YET!)]
+    * Add a sprite struct for the player
+    * Add controls to the player
+
+3: Create Block struct
+    * Block should contain a sprite struct and a collision rect and a position
+    * Block should contain a TYPE property which corresponds to its type e.g. Stone, Dirt etc.
+
+4: Create World
+    * Create world struct
+    * Create 2D array for blocks
+    * Array should be stored in order of X Y value of the block [ That means a block at X and Y should stored in array[X][Y] instead of array[BLOCK_INDEX]]
+    * Add rendering function to render those blocks
+    * Initially for testing, there is no world generation
+
+5: Enchantment / Bug fixing TIME: [Added (more) later when needed]
+    * Add a fog effect around player so he cant see further blocks
+
+6: Create a noise algorithm:
+    * First you will start off by defining a [N x M] grid of WHITE pixels
+    * Replace about O% of the pixel to black [ opacity anywhere between 0.5 - 0.1] [Value of O is supposed to be very low because the black pixel is where caves will generate]
+    * FOLLOW 2ND RESOURCE
+
+7: Create Inventory
+    * Create inventory struct
+    * inventory will have a slots of 36 and 9 of those slots are hotbar [which player can access without going into menu bar]
+    ********* ADD HERE LATER *********
+
+8: Add Items
+    * Create item struct
+    * item will follow verlet's integeration
+    * item is an entity which follow block collisions
+    * item will have a hard coded hitbox
+    * item will have a TYPE to define which item it is
+    * item will have a position
+    * item will have a count to define number of that item
+    * item will have a max count to define maximum stackability
+    * if the same TYPE of items are close enough to each other, they will stack up to its stack limit [which mean that if an item of count 24 and another of count 20 are close, they combine to form a single item of count 24 + 20 (44), but if there are item like 55 and 30, they will combine to form 64 (max stack) and left over 21]
+    * item can be picked up by the player if it collides with player's hitbox
+
+
+
+
+[[RESOURCES]]
+
+[THE "POLYGONIC" WAY FOR CAVE GENERATION]
+** Create a random polygon of K nodes [every node should be atleast L value away from the current black pixel and the L value is propotional to pixel's opacity]
+        ** FOLLOW THESE FOR ALL LINES OF THE polygon
+            *** Draw the polygon on the map [virtually, which means you are not actually drawing it]
+            *** Remove the blocks which lie on the line [ by just using line algorithm (CHECK RESOURCES)]
+        ** Now start from the block pixel and slowly move in all direction to remove the blocks inside the polygon until you encounter the edge of the polygon [Or any empty space]
+        ** Now the cave has been generated!
+
+[THE LINE FILLED ALGORITH]
+* You have line N which lies on a grid of pixels
+* Start one of the end of the line and calculate the angle from the current end to the other end denoted T
+* Move from current position [Initially same as the start of the line] to position = (x + cos(T), y + sin(T))
+* Remove the pixel your position lies on
+* Repeat this process untill you reach the other end
